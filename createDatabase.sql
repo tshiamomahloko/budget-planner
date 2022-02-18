@@ -124,7 +124,7 @@ CREATE TABLE
     IncomeBudget(
         [BudgetID] [int] NOT NULL,
         [IncomeID] [int] NOT NULL,
-        [IncomeAmount] [decimal(9,2)] NOT NULL,
+        [IncomeAmount] decimal(9,2) NOT NULL,
         CONSTRAINT [PK_Income_Budget] PRIMARY KEY (BudgetID, IncomeID),
         CONSTRAINT [FK_IncomeBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES Budget (BudgetID)
         ON
