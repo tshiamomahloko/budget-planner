@@ -17,8 +17,19 @@ CREATE TABLE Customer(
 	[Name] [varchar](50) NOT NULL,
 	[Email] [varchar](150) NOT NULL,
 	[Password] [varchar](20) NOT NULL,
-)
+);
 
+/*
+Create Budget table.
+*/
+CREATE TABLE [Budget] (
+    [BudgetID] int IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+    [CustomerID] int NOT NULL,
+    [StartDate] date NOT NULL,
+    [EndDate] date NOT NULL
+);
+
+ALTER TABLE [Budget] ADD CONSTRAINT [FK_Budget_Customer_Customer_ID] FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID); 
 
 /*
 Create IncomeTypes table.
