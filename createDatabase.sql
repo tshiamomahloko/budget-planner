@@ -1,10 +1,4 @@
-DROP DATABASE IF EXISTS BudgetDatabase
-
-CREATE DATABASE BudgetDatabase
-GO
-
-USE BudgetDatabase
-
+DROP DATABASE IF EXISTS BudgetDatabase CREATE DATABASE BudgetDatabase GO USE BudgetDatabase
 /*
  Create Customer Table.
  */
@@ -122,18 +116,20 @@ CREATE TABLE
         [IncomeAmount] [int] NOT NULL,
         CONSTRAINT [PK_Income_Budget] PRIMARY KEY (BudgetID, IncomeID),
         CONSTRAINT [FK_IncomeBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES Budget (BudgetID)
-        ON DELETE CASCADE
         ON
+        DELETE
+            CASCADE
+            ON
         UPDATE
             CASCADE,
             CONSTRAINT [FK_Expense_Budget_IncomeID] FOREIGN KEY (IncomeID) REFERENCES Income (IncomeID)
-            ON DELETE CASCADE
+            ON
+        DELETE
+            CASCADE
             ON
         UPDATE
             CASCADE
-    )
-
-GO
+    ) GO
 CREATE TABLE
     ExpenseType(
         ExpenseTypeID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -150,6 +146,7 @@ CREATE TABLE
         CONSTRAINT FK_Expense FOREIGN KEY(ExpenseTypeID) REFERENCES ExpenseType(ExpenseTypeID),
         CONSTRAINT FK2_Expense FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)
     );
+
 CREATE TABLE
     ExpenseBudget (
         [BudgetID] INT NOT NULL,
@@ -170,7 +167,4 @@ CREATE TABLE
             ON
         UPDATE
             CASCADE
-
-
-    ) 
-
+    )
