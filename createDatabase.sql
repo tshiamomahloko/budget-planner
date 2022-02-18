@@ -115,6 +115,24 @@ DELETE
 SET
     NULL;
 
+CREATE TABLE
+    IncomeBudget(
+        [BudgetID] [int] NOT NULL,
+        [IncomeID] [int] NOT NULL,
+        [IncomeAmount] [int] NOT NULL,
+        CONSTRAINT [PK_Income_Budget] PRIMARY KEY (BudgetID, IncomeID),
+        CONSTRAINT [FK_IncomeBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES [BudgetDatabase].[Budget] (BudgetID)
+        ON DELETE CASCADE
+        ON
+        UPDATE
+            CASCADE,
+            CONSTRAINT [FK_Expense_Budget_IncomeID] FOREIGN KEY (IncomeID) REFERENCES [BudgetDatabase].[Income] (IncomeID)
+            ON DELETE CASCADE
+            ON
+        UPDATE
+            CASCADE
+    )
+
 GO
 CREATE TABLE
     ExpenseBudget (
