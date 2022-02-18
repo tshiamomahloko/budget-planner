@@ -2,6 +2,7 @@ USE master;
 
 GO 
 
+/*
 ALTER DATABASE BudgetDatabase
 SET
     SINGLE_USER
@@ -9,6 +10,7 @@ WITH
     ROLLBACK IMMEDIATE;
 
 GO 
+*/
 
 DROP DATABASE IF EXISTS BudgetDatabase;
 
@@ -27,7 +29,7 @@ CREATE TABLE
         [CustomerID] [int] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
         [Name] [varchar] (50) NOT NULL,
         [Email] [varchar] (150) NOT NULL,
-        [Password] [varchar] (20) NOT NULL
+        [Password] [varchar] (65) NOT NULL
     );
 
 /* v
@@ -162,7 +164,7 @@ CREATE TABLE
     ExpenseBudget (
         [BudgetID] INT NOT NULL,
         [ExpenseID] INT NOT NULL,
-        [ExpenseAmount] decimal(9,2),
+        [ExpenseAmount] decimal(9,2) NOT NULL,
         CONSTRAINT [PK_Expense_Budget] PRIMARY KEY (BudgetID, ExpenseID),
         CONSTRAINT [FK_ExpenseBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES Budget (BudgetID)
         ON
