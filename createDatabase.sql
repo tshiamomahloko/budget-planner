@@ -1,8 +1,22 @@
-USE master DROP DATABASE IF EXISTS BudgetDatabase;
+USE master;
 
-GO CREATE DATABASE BudgetDatabase;
+GO 
 
-GO USE BudgetDatabase;
+ALTER DATABASE BudgetDatabase
+SET
+    SINGLE_USER
+WITH
+    ROLLBACK IMMEDIATE;
+
+GO 
+
+DROP DATABASE IF EXISTS BudgetDatabase;
+
+CREATE DATABASE BudgetDatabase;
+
+GO 
+
+USE BudgetDatabase;
 
 GO
 /*
@@ -13,10 +27,10 @@ CREATE TABLE
         [CustomerID] [int] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
         [Name] [varchar] (50) NOT NULL,
         [Email] [varchar] (150) NOT NULL,
-        [Password] [varchar] (20) NOT NULL,
+        [Password] [varchar] (20) NOT NULL
     );
 
-/*
+/* v
  Create Budget table.
  */
 CREATE TABLE
@@ -39,14 +53,13 @@ ADD
  the income type and an optional description of the income type.
  */
 CREATE TABLE
-    IncomeTypes (
+    IncomeType (
         [IncomeTypeID] [int] IDENTITY(1, 1) NOT NULL,
         [IncomeTypeName] [varchar] (50) NOT NULL,
         [IncomeTypeDescription] [varchar] (500) NULL,
         CONSTRAINT [PK_IncomeTypes] PRIMARY KEY CLUSTERED ([IncomeTypeID] ASC)
     );
 
-GO
 /*
  Create the Income table.
  This table stores the income information of the customers. It has
@@ -58,13 +71,12 @@ GO
  */
 CREATE TABLE
     Income (
-        [IncomeID] [int] IDENTITY(1, 1) NOT NULL,
+        [IncomeID] [int] PRIMARY KEY IDENTITY(1, 1) NOT NULL,
         [IncomeName] [varchar] (255) NOT NULL,
         [IncomeTypeID] [int] NOT NULL,
         [CustomerID] [int] NOT NULL
     );
 
-GO
 /*
  Add constraint to Income table to set the Income_Type_ID
  variable to 1 if not specified.
@@ -73,21 +85,20 @@ GO
  value and not just 'null'
  */
 ALTER TABLE
-    BudgetDatabase.Income
+    Income
 ADD
     CONSTRAINT [defaultIncomeType] DEFAULT 1 FOR [IncomeTypeID];
 
-GO
 /*
  Foreign Key contraint on the Income_Type_ID field in
  the Income table
  */
 ALTER TABLE
-    BudgetDatabase.Income
+    Income
 WITH
     CHECK
 ADD
-    CONSTRAINT [FK_IncomeType] FOREIGN KEY([IncomeTypeID]) REFERENCES [BudgetDatabase] . [IncomeType] (IncomeTypeID)
+    CONSTRAINT [FK_IncomeType] FOREIGN KEY([IncomeTypeID]) REFERENCES IncomeType (IncomeTypeID)
     ON
 UPDATE
     CASCADE
@@ -96,65 +107,47 @@ DELETE
 SET
     DEFAULT;
 
-GO
 /*
  Foreign Key contraint on the Customer_ID field in
  the Income table
  */
 ALTER TABLE
-    BudgetDatabase.Income
+    Income
 WITH
     CHECK
 ADD
-    CONSTRAINT [FK_CustomerID] FOREIGN KEY([CustomerID]) REFERENCES [BudgetDatabase] . [Customer] (CustomerID)
+    CONSTRAINT [FK_CustomerID] FOREIGN KEY([CustomerID]) REFERENCES Customer (CustomerID)
     ON
 UPDATE
     CASCADE
-    ON
-DELETE
-SET
-    NULL;
-
 CREATE TABLE
     IncomeBudget(
         [BudgetID] [int] NOT NULL,
         [IncomeID] [int] NOT NULL,
         [IncomeAmount] [int] NOT NULL,
         CONSTRAINT [PK_Income_Budget] PRIMARY KEY (BudgetID, IncomeID),
-        CONSTRAINT [FK_IncomeBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES [BudgetDatabase].[Budget] (BudgetID)
-        ON DELETE CASCADE
+        CONSTRAINT [FK_IncomeBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES Budget (BudgetID)
         ON
+        DELETE
+            CASCADE
+            ON
         UPDATE
             CASCADE,
-            CONSTRAINT [FK_Expense_Budget_IncomeID] FOREIGN KEY (IncomeID) REFERENCES [BudgetDatabase].[Income] (IncomeID)
-            ON DELETE CASCADE
+            CONSTRAINT [FK_Expense_Budget_IncomeID] FOREIGN KEY (IncomeID) REFERENCES Income (IncomeID)
+            ON
+        DELETE
+            CASCADE
             ON
         UPDATE
             CASCADE
     )
-
-GO
 CREATE TABLE
-    ExpenseBudget (
-        [BudgetID] INT NOT NULL,
-        [ExpenseID] INT NOT NULL,
-        [ExpenseAmount] money,
-        CONSTRAINT [PK_Expense_Budget] PRIMARY KEY (BudgetID, ExpenseID),
-        CONSTRAINT [FK_ExpenseBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES [BudgetDatabase] . [Budget] (BudgetID)
-        ON
-        DELETE
-            CASCADE
-            ON
-        UPDATE
-            CASCADE,
-            CONSTRAINT [FK_Expense_Budget_ExpenseID] FOREIGN KEY (ExpenseID) REFERENCES [BudgetDatabase] . [Expense] (ExpenseID)
-            ON
-        DELETE
-            CASCADE
-            ON
-        UPDATE
-            CASCADE
-    ) --Create the Expense table with constraints
+    ExpenseType(
+        ExpenseTypeID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+        ExpenseTypeName VARCHAR(200) NOT NULL,
+        ExpenseDescription VARCHAR(250) NOT NULL
+    );
+
 CREATE TABLE
     Expense (
         ExpenseID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -165,10 +158,24 @@ CREATE TABLE
         CONSTRAINT FK2_Expense FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)
     );
 
---Create ExpenseType Table
 CREATE TABLE
-    ExpenseType(
-        ExpenseTypeID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
-        ExpenseTypeName VARCHAR(200) NOT NULL,
-        ExpenseDescription VARCHAR(250) NOT NULL
-    );
+    ExpenseBudget (
+        [BudgetID] INT NOT NULL,
+        [ExpenseID] INT NOT NULL,
+        [ExpenseAmount] money,
+        CONSTRAINT [PK_Expense_Budget] PRIMARY KEY (BudgetID, ExpenseID),
+        CONSTRAINT [FK_ExpenseBudget_BudgetID] FOREIGN KEY (BudgetID) REFERENCES Budget (BudgetID)
+        ON
+        DELETE
+            CASCADE
+            ON
+        UPDATE
+            CASCADE,
+            CONSTRAINT [FK_Expense_Budget_ExpenseID] FOREIGN KEY (ExpenseID) REFERENCES Expense (ExpenseID)
+            ON
+        DELETE
+            CASCADE
+            ON
+        UPDATE
+            CASCADE
+    )
