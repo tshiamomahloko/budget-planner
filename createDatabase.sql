@@ -72,3 +72,20 @@ REFERENCES [BudgetDatabase].[Customer](CustomerID)
 ON UPDATE CASCADE
 ON DELETE SET NULL;
 GO
+
+CREATE TABLE ExpenseBudget (
+	[BudgetID] int NOT NULL,
+	[ExpenseID] int NOT NULL,
+	[ExpenseAmount] money,
+	CONSTRAINT [PK_Expense_Budget] PRIMARY KEY (BudgetID, ExpenseID),
+	CONSTRAINT [FK_ExpenseBudget_BudgetID]
+		FOREIGN KEY (BudgetID)
+		REFERENCES [BudgetDatabase].[Budget](BudgetID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	CONSTRAINT [FK_Expense_Budget_ExpenseID]
+		FOREIGN KEY (ExpenseID)
+		REFERENCES [BudgetDatabase].[Expense](ExpenseID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+)
