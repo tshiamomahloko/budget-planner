@@ -10,6 +10,17 @@ USE BudgetDatabase;
 GO
 
 /*
+Create Customer Table.
+*/
+CREATE TABLE Customer(
+	[CustomerID] [int] NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	[Name] [varchar](50) NOT NULL,
+	[Email] [varchar](150) NOT NULL,
+	[Password] [varchar](20) NOT NULL,
+)
+
+
+/*
 Create IncomeTypes table.
 This table stores the different types of income the
 user can choose from. It has columns for the record ID, the name for 
