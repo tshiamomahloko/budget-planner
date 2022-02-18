@@ -1,4 +1,24 @@
-DROP DATABASE IF EXISTS BudgetDatabase CREATE DATABASE BudgetDatabase GO USE BudgetDatabase
+USE master;
+
+GO 
+
+ALTER DATABASE BudgetDatabase
+SET
+    SINGLE_USER
+WITH
+    ROLLBACK IMMEDIATE;
+
+GO 
+
+DROP DATABASE IF EXISTS BudgetDatabase;
+
+CREATE DATABASE BudgetDatabase;
+
+GO 
+
+USE BudgetDatabase;
+
+GO
 /*
  Create Customer Table.
  */
@@ -7,10 +27,10 @@ CREATE TABLE
         [CustomerID] [int] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
         [Name] [varchar] (50) NOT NULL,
         [Email] [varchar] (150) NOT NULL,
-        [Password] [varchar] (20) NOT NULL,
+        [Password] [varchar] (20) NOT NULL
     );
 
-/*
+/* v
  Create Budget table.
  */
 CREATE TABLE
@@ -33,14 +53,13 @@ ADD
  the income type and an optional description of the income type.
  */
 CREATE TABLE
-    IncomeTypes (
+    IncomeType (
         [IncomeTypeID] [int] IDENTITY(1, 1) NOT NULL,
         [IncomeTypeName] [varchar] (50) NOT NULL,
         [IncomeTypeDescription] [varchar] (500) NULL,
         CONSTRAINT [PK_IncomeTypes] PRIMARY KEY CLUSTERED ([IncomeTypeID] ASC)
     );
 
-GO
 /*
  Create the Income table.
  This table stores the income information of the customers. It has
@@ -58,7 +77,6 @@ CREATE TABLE
         [CustomerID] [int] NOT NULL
     );
 
-GO
 /*
  Add constraint to Income table to set the Income_Type_ID
  variable to 1 if not specified.
@@ -71,7 +89,6 @@ ALTER TABLE
 ADD
     CONSTRAINT [defaultIncomeType] DEFAULT 1 FOR [IncomeTypeID];
 
-GO
 /*
  Foreign Key contraint on the Income_Type_ID field in
  the Income table
@@ -90,7 +107,6 @@ DELETE
 SET
     DEFAULT;
 
-GO
 /*
  Foreign Key contraint on the Customer_ID field in
  the Income table
@@ -104,11 +120,6 @@ ADD
     ON
 UPDATE
     CASCADE
-    ON
-DELETE
-SET
-    NULL;
-
 CREATE TABLE
     IncomeBudget(
         [BudgetID] [int] NOT NULL,
@@ -129,7 +140,7 @@ CREATE TABLE
             ON
         UPDATE
             CASCADE
-    ) GO
+    )
 CREATE TABLE
     ExpenseType(
         ExpenseTypeID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
