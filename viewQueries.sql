@@ -2,23 +2,23 @@
 View that returns all the possible income types
 a customer can choose from and their descriptions.
 */
-CREATE OR VIEW [incomeTypeView] AS
+CREATE OR VIEW [IncomeTypeView] AS
 SELECT IncomeTypeName AS Income, IncomeTypeDescription AS Explanation
 FROM IncomeType;
 
 -- execute query:
--- SELECT * FROM incomeTypeView;
+-- SELECT * FROM IncomeTypeView;
 
 /*
 View that returns all the possible expense types
 a customer can choose from and their descriptions.
 */
-CREATE VIEW [expenseTypeView] AS
+CREATE VIEW [ExpenseTypeView] AS
 SELECT ExpenseTypeName AS Expense, ExpenseDescription AS Explanation
 FROM ExpenseType;
 
 -- execute query:
--- SELECT * FROM expenseTypeView;
+-- SELECT * FROM ExpenseTypeView;
 
 /*
 Possible other idea for a view:
@@ -30,12 +30,12 @@ customer's password. It is possible for an admin to delete
 a customer record through the view.
 */
 
-CREATE VIEW [customerView] AS
-SELECT customerID AS ID, customerName AS Customer, customerEmail AS Email
+CREATE VIEW [CustomerView] AS
+SELECT CustomerID AS ID, Name, Email
 FROM Customer;
 
 -- execute query:
--- SELECT * FROM customerView;
+-- SELECT * FROM CustomerView;
 
 /*
 Can create a stored proc that will show a customer's
