@@ -64,3 +64,32 @@ INSERT INTO ExpenseBudget(
 		('4', '4', '400'),
 		('4', '5', '5000'),
 		('4', '6', '8500');
+		
+		
+INSERT INTO [dbo].[IncomeType]
+           ([IncomeTypeName]
+           ,[IncomeTypeDescription])
+     VALUES
+           ('Salary', 'Money earnt from a job.'),
+	   ('Commission', 'Money earnt from completing a task'),
+	   ('Investments', 'Money earnt from capital growth from property, shares and/or art');
+
+
+INSERT INTO [dbo].[Income]
+           ([IncomeName]
+           ,[IncomeTypeID]
+           ,[CustomerID])
+     VALUES
+           ('BBD Salary', 1, 1),
+	   ('Main property', 3, 1),
+	   ('Sales', 2, 2);
+
+
+INSERT INTO [dbo].[IncomeBudget]
+           ([BudgetID]
+           ,[IncomeID]
+           ,[IncomeAmount])
+     VALUES
+           (1, 1, 420.01),
+	   (2, 2, 9001.04);
+
