@@ -6,15 +6,15 @@ IF OBJECT_ID ( 'uspNewBudgetCopy', 'P' ) IS NOT NULL
 GO
 
 CREATE PROCEDURE uspNewBudgetCopy
-	@budgetId varchar,
+	@budgetId varchar(20),
 	@startDate date,
 	@endDate date
 AS
 BEGIN
 	SET NOCOUNT ON;
 	DECLARE @sql NVARCHAR(2048)
-	DECLARE @newBudgetId nvarchar(max)
-
+	DECLARE @newBudgetId nvarchar(20)
+	
 	-- Create new Budget
 	SET @sql = FORMATMESSAGE('INSERT INTO [Budget] (CustomerID, StartDate, EndDate) VALUES ((SELECT TOP 1 [CustomerID] FROM [Budget] WHERE [BudgetID] = %s), ''%s'', ''%s''); SELECT @budgetId = SCOPE_IDENTITY();', @budgetId, CONVERT(varchar(12), @startDate, 1), CONVERT(varchar(12), @endDate, 1));
 	EXEC sp_executesql @sql, N'@budgetId int out', @newBudgetId out;
