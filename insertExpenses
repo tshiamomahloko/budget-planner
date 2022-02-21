@@ -1,0 +1,13 @@
+USE BudgetDatabase;
+GO
+
+INSERT INTO ExpenseType(
+ExpenseTypeName,
+ExpenseDescription) VALUES
+('Entertainment', 'Things that aren't a need, but entertain a person. For personal enjoyment'),
+('Food and Groceries', 'Food/Drinks bought from a grocery store'),
+('Rent', 'Housing Costs'),
+('Pet Food', 'To feed pets at home'),
+('Savings', 'An amount that goes off of your income to put away for a targetted expense'),
+('Medical Aid', 'If an emergency medical procedure is required, or a doctors visit is needed'),
+('Pet Insurance', 'Incase of an emergency medical procedure for my pet')
