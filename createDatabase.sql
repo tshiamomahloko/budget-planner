@@ -21,9 +21,11 @@ GO
 USE BudgetDatabase;
 
 GO
+
 /*
  Create Customer Table.
  */
+ 
 CREATE TABLE
     Customer(
         [CustomerID] [int] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
@@ -31,8 +33,12 @@ CREATE TABLE
         [Email] [varchar] (150) NOT NULL,
         [Password] [varchar] (65) NOT NULL
     );
+    
+ALTER TABLE 
+    CUSTOMER
+ADD UNIQUE (Email)
 
-/* v
+/* 
  Create Budget table.
  */
 CREATE TABLE
