@@ -20,3 +20,47 @@ INSERT INTO dbo.Budget(
 		(1, '2022-01-01', '2022-01-31'),
 		(1, '2022-02-01', '2022-02-28'),
 		(2, '2022-01-01', '2022-01-31');
+		
+
+INSERT INTO ExpenseType(
+		ExpenseTypeName,
+		ExpenseDescription
+	) VALUES
+		('Entertainment', 'Personal enjoyment'),
+		('Food and Groceries', 'Food/Drinks'),
+		('Housing Costs', 'What it costs to live in ones home'),
+		('Savings', 'An amount that goes off of your income to put away for a targetted expense such as a rainy day/buying a car/buying a house'),
+		('Medical Aid', 'Mainly for medical emergencies, and sometimes added benefits are included'),
+		('Pet Insurance', 'Incase of an emergency medical procedure for a pet, sometimes with added benefits');
+
+
+INSERT INTO Expense(
+		ExpenseTypeID,
+		CustomerID,
+		ExpenseName
+	) VALUES
+		('1', '1', 'Cigarettes'),
+		('2', '1', 'Pet Food'),
+		('6', '1', 'Medi-pet'),
+		('1', '2', 'Horse Riding'),
+		('2', '2', 'Beer'),
+		('3', '2', 'Rent');
+
+
+INSERT INTO ExpenseBudget(
+		BudgetID,
+		ExpenseID,
+		ExpenseAmount
+	) VALUES 
+		('1', '1', '750'),
+		('1', '2', '550'),
+		('1', '3', '100'),
+		('2', '1', '725'),
+		('2', '2', '300'),
+		('2', '3', '100'),
+		('3', '1', '920'),
+		('3', '2', '350'),
+		('3', '3', '100'),
+		('4', '4', '400'),
+		('4', '5', '5000'),
+		('4', '6', '8500');
