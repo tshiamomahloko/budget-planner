@@ -2,7 +2,7 @@
 View that returns all the possible income types
 a customer can choose from and their descriptions.
 */
-CREATE OR VIEW [IncomeTypeView] AS
+CREATE VIEW [IncomeTypeView] AS
 SELECT IncomeTypeName AS Income, IncomeTypeDescription AS Explanation
 FROM IncomeType;
 
