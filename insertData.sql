@@ -82,7 +82,8 @@ INSERT INTO [dbo].[Income]
      VALUES
            ('BBD Salary', 1, 1),
 	   ('Main property', 3, 1),
-	   ('Sales', 2, 2);
+	   ('Sales', 2, 1),
+	   ('Salary', 1, 2);
 
 
 INSERT INTO [dbo].[IncomeBudget]
@@ -91,5 +92,6 @@ INSERT INTO [dbo].[IncomeBudget]
            ,[IncomeAmount])
      VALUES
            (1, 1, 420.01),
-	   (2, 2, 9001.04);
-
+	   (2, 2, 9001.04),
+	   (3, 3, 3001.04),
+	   (4, 4, 5001.04);
