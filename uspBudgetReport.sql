@@ -2,28 +2,29 @@ USE BudgetDatabase;
 GO
 
 IF OBJECT_ID ( 'uspBudgetReport', 'P') IS NOT NULL
-    DROP PROCEDURE spBudgetReport;
+    DROP PROCEDURE uspBudgetReport;
 GO
 
 CREATE PROCEDURE uspBudgetReport
-    @BudgetID INT,
+    @BudgetID INT
 AS
 --Selecting from Budget to calculate the daily budget
-SELECT BudgetID, Daily_Budget(BudgetID) AS DailyBudget
+SELECT BudgetID, dbo.Daily_Budget(BudgetID) AS DailyBudget
 FROM Budget
 WHERE BudgetID = @BudgetID;
 
---Selecting from the IncomeBudget Table and the ExpenseBudget table joining where the budget ID is the given to join with the income table
+--Table variable for storing income and expenses
+DECLARE @statement TABLE (IncomeAmount DECIMAL(9, 2), ExpenseAmount DECIMAL(9, 2));
 
-SELECT IncomeBudget.BudgetID, IncomeBudget.IncomeAmount, ExpenseBudget.ExpenseID, ExpenseBudget.ExpenseAmount
-FROM IncomeBudget
-INNER JOIN ExpenseBudget ON IncomeBudget.BudgetID = ExpenseBudget.BudgetID;
+--Selecting from the IncomeBudget Table and the ExpenseBudget table joining where the budget ID is the given
+INSERT INTO @statement SELECT IncomeBudget.IncomeAmount, 0 AS ExpenseAmount FROM Budget INNER JOIN IncomeBudget ON Budget.BudgetID = IncomeBudget.BudgetID WHERE Budget.BudgetID = @budgetId
+UNION
+SELECT 0 AS IncomeAmount, ExpenseBudget.ExpenseAmount FROM Budget INNER JOIN ExpenseBudget ON Budget.BudgetID = ExpenseBudget.BudgetID WHERE Budget.BudgetID = @budgetId
+
+SELECT * FROM @statement
 
 --Getting the sum of amounts from prev query and getting the total
-
-SELECT SUM(IncomeBudget.IncomeAmount) - SUM(ExpenseBudget.ExpenseAmount)
-FROM IncomeBudget, ExpenseBudget
-WHERE IncomeBudget.BudgetID = ExpenseBudget.BudgetID;
+SELECT SUM(IncomeAmount) - SUM(ExpenseAmount) AS Total FROM @statement;
 
 GO
 
