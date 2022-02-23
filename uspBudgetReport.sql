@@ -10,6 +10,7 @@ CREATE PROCEDURE uspBudgetReport
 AS
 BEGIN
 	--Table variable for storing income and expenses
+    SET @BudgetID = 0;
 	DECLARE @statement TABLE (IncomeAmount DECIMAL(9, 2), ExpenseAmount DECIMAL(9, 2));
 
 	--Selecting from the IncomeBudget Table and the ExpenseBudget table joining where the budget ID is the given
