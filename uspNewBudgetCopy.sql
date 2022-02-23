@@ -27,4 +27,4 @@ BEGIN
 	SET @sql = FORMATMESSAGE('INSERT INTO [IncomeBudget] SELECT %s AS [BudgetID], [IncomeID], [IncomeAmount] FROM [IncomeBudget] WHERE BudgetID = %s', @newBudgetId, @budgetId);
 	EXEC sp_executesql @sql;
 END
-	GO
+GO
