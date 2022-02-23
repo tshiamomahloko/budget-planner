@@ -30,8 +30,8 @@ customer's password. It is possible for an admin to delete
 a customer record through the view.
 */
 
-CREATE VIEW [CustomerView] AS
-SELECT CustomerID AS ID, Name, Email
+CREATE VIEW [customerView] AS
+SELECT customerID AS ID, Name AS "Customer Name", Email
 FROM Customer;
 
 -- execute query:
