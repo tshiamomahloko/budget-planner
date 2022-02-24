@@ -6,7 +6,7 @@ IF OBJECT_ID ('Daily_Budget', 'FN') IS NOT NULL
 GO  
 
 CREATE FUNCTION Daily_Budget
-	(@budgetId varchar(50))
+	(@budgetId int)
 RETURNS DECIMAL(9, 2)
 AS
 BEGIN
