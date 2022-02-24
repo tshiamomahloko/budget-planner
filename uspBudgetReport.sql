@@ -27,7 +27,7 @@ BEGIN
 		WHERE Budget.BudgetID = @budgetId
 
 	--Selecting from Budget to calculate the daily budget, and calculating total (net income) from @statement
-	SELECT BudgetID, dbo.Daily_Budget(BudgetID) AS [Daily Budget], DATEDIFF(day, Budget.StartDate, Budget.EndDate) AS [Days in Budget], SUM(IncomeAmount) AS [Total Income], SUM(ExpenseAmount) AS [Total Expenses], SUM(IncomeAmount) - SUM(ExpenseAmount) AS [Budget Total]
+	SELECT BudgetID, dbo.Daily_Budget(BudgetID) AS [Daily Budget], (DATEDIFF(day, Budget.StartDate, Budget.EndDate) + 1) AS [Days in Budget], SUM(IncomeAmount) AS [Total Income], SUM(ExpenseAmount) AS [Total Expenses], SUM(IncomeAmount) - SUM(ExpenseAmount) AS [Budget Total]
 	FROM Budget, @statement
 	WHERE BudgetID = @BudgetID 
 	GROUP BY BudgetID, StartDate, EndDate
