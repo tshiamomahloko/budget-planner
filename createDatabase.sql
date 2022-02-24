@@ -72,7 +72,7 @@ CREATE TABLE
     Income (
         [IncomeID] [int] PRIMARY KEY IDENTITY(1, 1) NOT NULL,
         [IncomeName] [varchar] (255) NOT NULL,
-        [IncomeTypeID] [int] NULL,
+        [IncomeTypeID] [int] NOT NULL,
         [CustomerID] [int] NOT NULL
     );
 
@@ -88,11 +88,7 @@ ADD
     CONSTRAINT [FK_IncomeType] FOREIGN KEY([IncomeTypeID]) REFERENCES IncomeType (IncomeTypeID)
     ON
 UPDATE
-    CASCADE
-    ON
-DELETE
-SET
-    NULL;
+    CASCADE;
 
 /*
  Foreign Key contraint on the Customer_ID field in
