@@ -56,26 +56,17 @@ ADD
 
 /*
  Create IncomeTypes table.
- This table stores the different types of income the
- user can choose from. It has columns for the record ID, the name for 
- the income type and an optional description of the income type.
  */
 CREATE TABLE
     IncomeType (
         [IncomeTypeID] [int] IDENTITY(1, 1) NOT NULL,
-        [IncomeTypeName] [varchar] (50) NOT NULL,
-        [IncomeTypeDescription] [varchar] (500) NULL,
+        [IncomeTypeName] [varchar] (100) NOT NULL,
+        [IncomeTypeDescription] [varchar] (250) NULL,
         CONSTRAINT [PK_IncomeTypes] PRIMARY KEY CLUSTERED ([IncomeTypeID] ASC)
     );
 
 /*
  Create the Income table.
- This table stores the income information of the customers. It has
- columns for the record ID, the name of the income that the customer
- will give it, a foreign key that links to the IncomeType table that
- specifies what type of income it is, and a foreign key that links to
- the customer table that specifies to which customer the Income record
- belongs.
  */
 CREATE TABLE
     Income (
@@ -84,18 +75,6 @@ CREATE TABLE
         [IncomeTypeID] [int] NOT NULL,
         [CustomerID] [int] NOT NULL
     );
-
-/*
- Add constraint to Income table to set the Income_Type_ID
- variable to 1 if not specified.
- Do this for when a Income_Type record is deleted the
- foreign key in the Income table stil points to a default
- value and not just 'null'
- */
-ALTER TABLE
-    Income
-ADD
-    CONSTRAINT [defaultIncomeType] DEFAULT 1 FOR [IncomeTypeID];
 
 /*
  Foreign Key contraint on the Income_Type_ID field in
@@ -109,11 +88,7 @@ ADD
     CONSTRAINT [FK_IncomeType] FOREIGN KEY([IncomeTypeID]) REFERENCES IncomeType (IncomeTypeID)
     ON
 UPDATE
-    CASCADE
-    ON
-DELETE
-SET
-    DEFAULT;
+    CASCADE;
 
 /*
  Foreign Key contraint on the Customer_ID field in
@@ -149,23 +124,33 @@ CREATE TABLE
         UPDATE
             CASCADE
     )
+    
+/*
+ Create the ExpenseType table.
+ */    
 CREATE TABLE
     ExpenseType(
         ExpenseTypeID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
-        ExpenseTypeName VARCHAR(200) NOT NULL,
+        ExpenseTypeName VARCHAR(100) NOT NULL,
         ExpenseDescription VARCHAR(250) NOT NULL
     );
 
+/*
+ Create the Expense table.
+ */
 CREATE TABLE
     Expense (
         ExpenseID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
         ExpenseTypeID INT NOT NULL,
         CustomerID INT NOT NULL,
-        ExpenseName VARCHAR(200) NOT NULL,
+        ExpenseName VARCHAR(255) NOT NULL,
         CONSTRAINT FK_Expense FOREIGN KEY(ExpenseTypeID) REFERENCES ExpenseType(ExpenseTypeID),
         CONSTRAINT FK2_Expense FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)
     );
 
+/*
+ Create the ExpenseBudget table.
+*/
 CREATE TABLE
     ExpenseBudget (
         [BudgetID] INT NOT NULL,
@@ -187,3 +172,23 @@ CREATE TABLE
         UPDATE
             CASCADE
     )
+
+
+/*
+	Add users and permissions
+*/
+CREATE USER [test_user] FOR LOGIN [test_user] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [maddie] FOR LOGIN [maddie] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [anel] FOR LOGIN [anel] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [tshiamo] FOR LOGIN [tshiamo] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [sean] FOR LOGIN [sean] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [declan] FOR LOGIN [declan] WITH DEFAULT_SCHEMA=[dbo]
+GO
+
+ALTER ROLE [db_owner] ADD MEMBER [anel]
+ALTER ROLE [db_owner] ADD MEMBER [maddie]
+ALTER ROLE [db_owner] ADD MEMBER [tshiamo]
+ALTER ROLE [db_owner] ADD MEMBER [sean]
+ALTER ROLE [db_owner] ADD MEMBER [declan]
+ALTER ROLE [db_owner] ADD MEMBER [test_user]
+GO
