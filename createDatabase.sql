@@ -172,3 +172,23 @@ CREATE TABLE
         UPDATE
             CASCADE
     )
+
+
+/*
+	Add users and permissions
+*/
+CREATE USER [test_user] FOR LOGIN [test_user] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [maddie] FOR LOGIN [maddie] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [anel] FOR LOGIN [anel] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [tshiamo] FOR LOGIN [tshiamo] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [sean] FOR LOGIN [sean] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [declan] FOR LOGIN [declan] WITH DEFAULT_SCHEMA=[dbo]
+GO
+
+ALTER ROLE [db_owner] ADD MEMBER [anel]
+ALTER ROLE [db_owner] ADD MEMBER [maddie]
+ALTER ROLE [db_owner] ADD MEMBER [tshiamo]
+ALTER ROLE [db_owner] ADD MEMBER [sean]
+ALTER ROLE [db_owner] ADD MEMBER [declan]
+ALTER ROLE [db_owner] ADD MEMBER [test_user]
+GO
